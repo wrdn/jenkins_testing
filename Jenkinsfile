@@ -16,7 +16,7 @@ pipeline {
         stage('c') {
           steps {
             writeFile(file: 'file', text: 'some text..')
-            sleep 5
+            sleep 30
           }
         }
       }
