@@ -1,28 +1,35 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                    parallel(
-                        a: {
-                            echo "This is branch a"
-                        },
-                        b: {
-                            echo "This is branch b"
-                        })
-            }
+  agent any
+  stages {
+    stage('Build') {
+      parallel {
+        stage('a') {
+          steps {
+            echo 'This is branch a'
+          }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
+        stage('b') {
+          steps {
+            echo 'This is branch b'
+          }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
+        stage('c') {
+          steps {
+            writeFile(file: 'file', text: 'some text..')
+            sleep 5
+          }
         }
+      }
     }
+    stage('Test') {
+      steps {
+        echo 'Testing..'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        echo 'Deploying....'
+      }
+    }
+  }
 }
-
