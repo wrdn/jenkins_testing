@@ -17,9 +17,9 @@ def RUN(index) {
   stage("second_${index}") {
     if(index == 1) { sleep 5 }
     echo "second at index ${index}"
-    ++compl
+    compl++
   }
-  stage("sync") {
+  stage("sync_${index}") {
     waitUntil { compl == nodeCount }
     echo "sync'd!"
   }
