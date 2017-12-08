@@ -1,3 +1,5 @@
+x=5
+
 pipeline {
   agent any
   stages {
@@ -17,6 +19,12 @@ pipeline {
           steps {
             writeFile(file: 'file', text: 'some text..')
             sleep 30
+            ++x
+          }
+        }
+        stage('d') {
+          steps {
+            waitUntil { x > 5 }
           }
         }
       }
