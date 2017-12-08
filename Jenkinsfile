@@ -23,8 +23,10 @@ pipeline {
   agent any
   stages {
     stage("start") {
-      script {
-        parallel branches
+      steps {
+        script {
+          parallel branches
+        }
       }
     }
   }
