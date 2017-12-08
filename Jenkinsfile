@@ -1,43 +1,15 @@
-x=5
+// in this array we'll place the jobs that we wish to run
+def branches = [:]
 
-pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      parallel {
-        stage('a') {
-          steps {
-            echo 'This is branch a'
-          }
-        }
-        stage('b') {
-          steps {
-            echo 'This is branch b'
-          }
-        }
-        stage('c') {
-          steps {
-            writeFile(file: 'file', text: 'some text..')
-            sleep 30
-            x++
-          }
-        }
-        stage('d') {
-          steps {
-            waitUntil { x > 5 }
-          }
-        }
-      }
-    }
-    stage('Test') {
-      steps {
-        echo 'Testing..'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying....'
-      }
-    }
+//running the job 4 times concurrently
+//the dummy parameter is for preventing mutation of the parameter before the execution of the closure.
+//we have to assign it outside the closure or it will run the job multiple times with the same parameter "4"
+//and jenkins will unite them into a single run of the job
+
+for (int i = 0; i < 4; i++) {
+  def index = i //if we tried to use i below, it would equal 4 in each job execution.
+  branches["branch${i}"] = {
+    echo index
   }
 }
+parallel branches
