@@ -7,7 +7,14 @@ def branches = [:]
 //and jenkins will unite them into a single run of the job
 
 def RUN(index) {
-  echo index.toString()
+  stage("first_${index}") {
+    if(index == 0) { sleep 5 }
+    echo "first at index ${index}"
+  }
+  stage("second_${index}") {
+    if(index == 1) { sleep 5 }
+    echo "second at index ${index}"
+  }
 }
 
 for (int i = 0; i < 2; i++) {
