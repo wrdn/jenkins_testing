@@ -9,12 +9,20 @@ def branches = [:]
 for (int i = 0; i < 4; i++) {
   def index = i //if we tried to use i below, it would equal 4 in each job execution.
   branches["branch${i}"] = {
-    stage("a_${index}" {
+    stage("a_${index}") {
       echo index.toString()
     }
-          stage("b_${index}") {
-            echo "something else... ${index}"
-          }
+    stage("b_${index}) {
+          echo "something else..."
+    }
   }
 }
-parallel branches
+          
+pipeline {
+  agent any
+  stages {
+    script {
+      parallel branches
+    }
+  }
+}
