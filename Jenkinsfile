@@ -12,7 +12,7 @@ for (int i = 0; i < 4; i++) {
     stage("a_${index}") {
       echo index.toString()
     }
-    stage("b_${index}) {
+    stage("b_${index}") {
           echo "something else..."
     }
   }
