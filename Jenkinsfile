@@ -35,7 +35,7 @@ for (int i = 0; i < nodeCount; i++) {
 }
 
 pipeline {
-  agent any
+  agent none
   stages {
     stage("start") {
       steps {
