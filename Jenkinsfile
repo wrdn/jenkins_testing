@@ -6,6 +6,9 @@ def branches = [:]
 //we have to assign it outside the closure or it will run the job multiple times with the same parameter "4"
 //and jenkins will unite them into a single run of the job
 
+compl = 0
+nodeCount = 2
+
 def RUN(index) {
   stage("first_${index}") {
     if(index == 0) { sleep 5 }
@@ -14,10 +17,15 @@ def RUN(index) {
   stage("second_${index}") {
     if(index == 1) { sleep 5 }
     echo "second at index ${index}"
+    ++compl
+  }
+  stage("sync") {
+    waitUntil { compl == nodeCount }
+    echo "sync'd!"
   }
 }
 
-for (int i = 0; i < 2; i++) {
+for (int i = 0; i < nodeCount; i++) {
   def index = i //if we tried to use i below, it would equal 4 in each job execution.
   branches["branch${i}"] = {
     node {
